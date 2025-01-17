@@ -13,6 +13,8 @@ struct Counter {
 };
 
 struct GlobalData {} global_data;
+struct Foo {
+};
 
 nb::ft_mutex mutex;
 
@@ -39,4 +41,7 @@ NB_MODULE(test_thread_ext, m) {
 
     nb::class_<GlobalData>(m, "GlobalData")
         .def_static("get", [] { return &global_data; }, nb::rv_policy::reference);
+
+    nb::class_<Foo>(m, "Foo");
+    m.def("new_foo", []() -> Foo * { return new Foo(); });
 }

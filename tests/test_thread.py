@@ -1,6 +1,7 @@
 import test_thread_ext as t
 from test_thread_ext import Counter, GlobalData
 from common import parallelize
+import time
 
 def test01_object_creation(n_threads=8):
     # This test hammers 'inst_c2p' from multiple threads, and
@@ -88,3 +89,22 @@ def test_06_global_wrapper(n_threads=8):
             GlobalData.get()
 
     parallelize(f, n_threads=n_threads)
+
+def test06_new_foo():
+    for _ in range(3):
+        start = time.perf_counter()
+        UNROLL = 10
+        N = 100000
+        for _ in range(N):
+            _ = t.new_foo()
+            _ = t.new_foo()
+            _ = t.new_foo()
+            _ = t.new_foo()
+            _ = t.new_foo()
+            _ = t.new_foo()
+            _ = t.new_foo()
+            _ = t.new_foo()
+            _ = t.new_foo()
+            _ = t.new_foo()
+        end = time.perf_counter()
+        print(f"Object construction took {(end - start) / (N * UNROLL) * 1e9} ns")
